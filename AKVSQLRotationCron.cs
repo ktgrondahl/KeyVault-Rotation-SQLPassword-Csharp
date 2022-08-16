@@ -1,29 +1,24 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
-
-using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.AspNetCore.Http;
+using Microsoft.Azure.WebJobs.Extensions.Timer;
 
 
 namespace Microsoft.KeyVault
 {
-    public static class AKVSQLRotationHttp
+    public static class AKVSQLRotationCron
     {
-        [FunctionName("AKVSQLRotationHttp")]
-        public static IActionResult Run(
-			[HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
-			ILogger log)
+        [FunctionName("AKVSQLRotationCron")]
+        public static void Run([TimerTrigger("0 0 0 * * *")]TimerInfo myTimer, ILogger log)
         {
-            string keyVaultName =  req.Query["KeyVaultName"];
-            string secretName = req.Query["SecretName"];
-            if(string.IsNullOrEmpty(keyVaultName) || string.IsNullOrEmpty(secretName)){
-                return new BadRequestObjectResult("Please pass a KeyVaultName and SecretName on the query string");
-            }
+            string keyVaultName;
+            string secretName;
 
-            log.LogInformation(req.ToString());
 
-            log.LogInformation("C# Http trigger function processed a request.");
+            keyVaultName = Environment.GetEnvironmentVariable("keyVaultName");
+            secretName = Environment.GetEnvironmentVariable("secretName");
+
+            log.LogInformation("Starting Secret Rotator Function");
+
             SecretRotator.RotateSecret(log,secretName ,keyVaultName);
 
             return new OkObjectResult($"Secret Rotated Successfully");
