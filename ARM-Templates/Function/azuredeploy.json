@@ -98,6 +98,14 @@
                             "name": "FUNCTIONS_WORKER_RUNTIME",
                             "value": "dotnet"
                         },
+			{
+                            "name": "keyVaultName",
+                            "value": "(parameters('keyVaultName')"
+                        },
+                        {
+                            "name": "secretName",
+                            "value": "(parameters('secretName')"
+                        },
                         {
                             "name": "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING",
                             "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('functionStorageAccountName'), ';EndpointSuffix=', environment().suffixes.storage, ';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('functionStorageAccountName')), '2019-06-01').keys[0].value)]"
