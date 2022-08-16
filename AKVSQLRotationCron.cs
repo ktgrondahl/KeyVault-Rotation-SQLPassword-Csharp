@@ -21,7 +21,7 @@ namespace Microsoft.KeyVault
 
             SecretRotator.RotateSecret(log,secretName ,keyVaultName);
 
-            return new OkObjectResult($"Secret Rotated Successfully");
+            log.LogInformation("Secret Rotated Successfully");
         }
     }
 }
