@@ -1,6 +1,6 @@
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
-using Microsoft.Azure.WebJobs.Extensions.Timer;
+
 
 
 namespace Microsoft.KeyVault
