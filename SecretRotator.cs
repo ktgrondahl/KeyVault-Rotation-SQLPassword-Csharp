@@ -80,11 +80,14 @@ namespace Microsoft.KeyVault
             var datasource = secret.Properties.Tags.ContainsKey(ProviderAddressTag) ? secret.Properties.Tags[ProviderAddressTag] : "";
             var dbResourceId = secret.Properties.Tags.ContainsKey(ProviderAddressTag) ? secret.Properties.Tags[ProviderAddressTag] : "";
             
-            var dbName = dbResourceId.Split('/')[8];
+	    var dbName = dbResourceId.Split('/')[8];
+	    var dnsName = dbResourceId.Split('/')[9];
+	    var fullName = dbName + "." + dnsName;
             var password = secret.Value;
-            
+		
             SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-            builder.DataSource = $"{dbName}.database.windows.net";
+            builder.DataSource = $"{fullName}.database.windows.net";
+            
             builder.UserID = userId;
             builder.Password = password;
     
