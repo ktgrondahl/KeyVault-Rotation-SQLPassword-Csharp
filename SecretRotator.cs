@@ -35,7 +35,6 @@ namespace Microsoft.KeyVault
             var credentialId = secret.Properties.Tags.ContainsKey(CredentialIdTag) ? secret.Properties.Tags[CredentialIdTag] : "";
             var providerAddress = secret.Properties.Tags.ContainsKey(ProviderAddressTag) ? secret.Properties.Tags[ProviderAddressTag] : "";
             var validityPeriodDays = secret.Properties.Tags.ContainsKey(ValidityPeriodDaysTag) ? secret.Properties.Tags[ValidityPeriodDaysTag] : "";
-	    var dbName = dbResourceId.Split('/')[8];
             log.LogInformation($"Provider Address: {providerAddress}");
             log.LogInformation($"Credential Id: {credentialId}");
 	    
