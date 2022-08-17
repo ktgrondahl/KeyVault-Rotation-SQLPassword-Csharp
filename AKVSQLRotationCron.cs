@@ -16,6 +16,10 @@ namespace Microsoft.KeyVault
 
             keyVaultName = Environment.GetEnvironmentVariable("keyVaultName");
             secretName = Environment.GetEnvironmentVariable("secretName");
+            
+            log.LogInformation($"Key Vault Name: {keyVaultName}");
+            log.LogInformation($"Secret Name: {secretName}");
+            
 
             log.LogInformation("Starting Secret Rotator Function");
 
