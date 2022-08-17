@@ -77,7 +77,7 @@ namespace Microsoft.KeyVault
             var password = secret.Value;
             
             SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-            builder.DataSource = $"{dbName}.database.windows.net";
+            builder.DataSource = "sqlmi-ph-dv.62a0483afe2e.database.windows.net";
             builder.UserID = userId;
             builder.Password = password;
     
