@@ -21,13 +21,21 @@ namespace Microsoft.KeyVault
             var kvUri = "https://" + keyVaultName + ".vault.azure.net";
             var client = new SecretClient(new Uri(kvUri), new DefaultAzureCredential());
             KeyVaultSecret secret = client.GetSecret(secretName);
+	    var dbResourceId = secret.Properties.Tags.ContainsKey(ProviderAddressTag) ? secret.Properties.Tags[ProviderAddressTag] : "";
+            var password = secret.Value;
+	    var dbName = dbResourceId.Split('/')[8];
+			
             log.LogInformation("Secret Info Retrieved");
 	    log.LogInformation($"kvUri : {kvUri}");
-
+	    log.LogInformation($"password : {password}");
+	    log.LogInformation($"dbResourceId : {dbResourceId}");
+            log.LogInformation($"dbName : {dbName}");
+			
             //Retrieve Secret Info
             var credentialId = secret.Properties.Tags.ContainsKey(CredentialIdTag) ? secret.Properties.Tags[CredentialIdTag] : "";
             var providerAddress = secret.Properties.Tags.ContainsKey(ProviderAddressTag) ? secret.Properties.Tags[ProviderAddressTag] : "";
             var validityPeriodDays = secret.Properties.Tags.ContainsKey(ValidityPeriodDaysTag) ? secret.Properties.Tags[ValidityPeriodDaysTag] : "";
+	    var dbName = dbResourceId.Split('/')[8];
             log.LogInformation($"Provider Address: {providerAddress}");
             log.LogInformation($"Credential Id: {credentialId}");
 	    
