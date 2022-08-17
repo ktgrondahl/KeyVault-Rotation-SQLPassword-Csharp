@@ -27,7 +27,6 @@ namespace Microsoft.KeyVault
 			
             log.LogInformation("Secret Info Retrieved");
 	    log.LogInformation($"kvUri : {kvUri}");
-	    log.LogInformation($"password : {password}");
 	    log.LogInformation($"dbResourceId : {dbResourceId}");
             log.LogInformation($"dbName : {dbName}");
 			
