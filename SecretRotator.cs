@@ -22,6 +22,7 @@ namespace Microsoft.KeyVault
             var client = new SecretClient(new Uri(kvUri), new DefaultAzureCredential());
             KeyVaultSecret secret = client.GetSecret(secretName);
             log.LogInformation("Secret Info Retrieved");
+	    log.LogInformation($"kvUri: {kvUri}");
 
             //Retrieve Secret Info
             var credentialId = secret.Properties.Tags.ContainsKey(CredentialIdTag) ? secret.Properties.Tags[CredentialIdTag] : "";
@@ -78,6 +79,7 @@ namespace Microsoft.KeyVault
             builder.Password = password;
     
             //Update password
+	    log.LogInformation("Attempting Connection in Upate Password");
             using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
             {
                 connection.Open();
@@ -104,11 +106,14 @@ namespace Microsoft.KeyVault
             var dbResourceId = secret.Properties.Tags.ContainsKey(ProviderAddressTag) ? secret.Properties.Tags[ProviderAddressTag] : "";
             
             var dbName = dbResourceId.Split('/')[8];
+            log.LogInformation($"dbName: {dbName}");
+	
             var password = secret.Value;
             SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
             builder.DataSource = $"{dbName}.database.windows.net";
             builder.UserID = userId;
             builder.Password = password;
+            log.LogInformation("Attempting Connection");
             using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
             {
                 connection.Open();
