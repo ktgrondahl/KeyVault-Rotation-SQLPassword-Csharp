@@ -1,4 +1,4 @@
-﻿using Azure.Security.KeyVault.Secrets;
+using Azure.Security.KeyVault.Secrets;
 using Microsoft.Data.SqlClient;
 using System;
 using Microsoft.Extensions.Logging;
@@ -22,7 +22,7 @@ namespace Microsoft.KeyVault
             var client = new SecretClient(new Uri(kvUri), new DefaultAzureCredential());
             KeyVaultSecret secret = client.GetSecret(secretName);
             log.LogInformation("Secret Info Retrieved");
-	    log.LogInformation($"kvUri: {kvUri}");
+	    log.LogInformation($"kvUri : {kvUri}");
 
             //Retrieve Secret Info
             var credentialId = secret.Properties.Tags.ContainsKey(CredentialIdTag) ? secret.Properties.Tags[CredentialIdTag] : "";
@@ -30,12 +30,15 @@ namespace Microsoft.KeyVault
             var validityPeriodDays = secret.Properties.Tags.ContainsKey(ValidityPeriodDaysTag) ? secret.Properties.Tags[ValidityPeriodDaysTag] : "";
             log.LogInformation($"Provider Address: {providerAddress}");
             log.LogInformation($"Credential Id: {credentialId}");
+	    
 
             //Check Service Provider connection
+	    log.LogInformation("Checking Connections");		
             CheckServiceConnection(secret);
             log.LogInformation("Service  Connection Validated");
             
             //Create new password
+	    log.LogInformation("Generate Randome Password");	
             var randomPassword = CreateRandomPassword();
             log.LogInformation("New Password Generated");
 
@@ -79,7 +82,6 @@ namespace Microsoft.KeyVault
             builder.Password = password;
     
             //Update password
-	    log.LogInformation("Attempting Connection in Upate Password");
             using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
             {
                 connection.Open();
@@ -106,14 +108,11 @@ namespace Microsoft.KeyVault
             var dbResourceId = secret.Properties.Tags.ContainsKey(ProviderAddressTag) ? secret.Properties.Tags[ProviderAddressTag] : "";
             
             var dbName = dbResourceId.Split('/')[8];
-            log.LogInformation($"dbName: {dbName}");
-	
             var password = secret.Value;
             SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
             builder.DataSource = $"{dbName}.database.windows.net";
             builder.UserID = userId;
             builder.Password = password;
-            log.LogInformation("Attempting Connection");
             using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
             {
                 connection.Open();
