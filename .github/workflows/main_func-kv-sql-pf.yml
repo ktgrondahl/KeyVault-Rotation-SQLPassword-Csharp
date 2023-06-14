@@ -11,7 +11,7 @@ on:
 
 env:
   AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
-  DOTNET_VERSION: '3.1.301' # set this to the dotnet version to use
+  DOTNET_VERSION: 'dotnet|3.1' # set this to the dotnet version to use
 
 jobs:
   build-and-deploy:
@@ -39,4 +39,4 @@ jobs:
           app-name: 'func-kv-sql-pf'
           slot-name: 'Production'
           package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E51D2CB9D256450889D4292D6396A235 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E15C3D552B4746F784567E06FA596804 }}
